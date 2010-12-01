@@ -13,6 +13,9 @@ requires:
 
 provides: [ValidateSimple]
 
+authors:
+  - Ian Collins
+
 ...
 */
 
