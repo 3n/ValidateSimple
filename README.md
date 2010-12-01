@@ -1,5 +1,5 @@
-Overview
-========
+ValidateSimple
+==============
 
 A MooTools class for realtime, client-side validation of form inputs. Given a form it will
 fire events as inputs become valid/invalid as the user is typing. It will also, of course,
@@ -17,6 +17,8 @@ enforce and kind of UI whatsoever, it just fires events and lets you handle what
 displayed. If you want a more powerful, hands-off validator use the standard MooTools More
 one. I created this to be more light-weight and have greater flexibility in when forms are 
 validated._
+
+![Screenshot](http://idisk.me.com/iancollins/Public/Pictures/Skitch/BankSimple_%7C_Home-20101201-135604.png)
 
 
 
