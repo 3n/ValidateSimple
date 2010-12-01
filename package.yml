@@ -1,0 +1,12 @@
+--- 
+name: "ValidateSimple"
+description: "Simple form validation with good UX"
+category: "Forms"
+tags: 
+  - "validation"
+current: "0.1"
+author: "3n"
+contact: "ian.collins@gmail.com"
+website: "http://www.iancollins.me"
+sources:
+  - "Source/ValidateSimple.js"
