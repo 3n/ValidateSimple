@@ -188,6 +188,25 @@ ValidateSimple.Validators = {
     test: function(input){
       return input.get('value').test(/^[A-Za-z -'&]+$/);
     }
+  },
+  'url': {
+    test: function(input){
+      return input.get('value').test(/^(https?|ftp|rmtp|mms):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?/i);
+    }
+  },
+  'alpha': {
+    test: function(input){
+      return input.get('value').test(/^[a-zA-Z]+$/);
+    }
+  },
+  'alphanumeric': {
+    test: function(input){
+      return !input.get('value').test(/\W/);
+    }
+  },
+  'numeric': {
+    test: function(input){
+      return input.get('value').test(/^-?(?:0$0(?=\d*\.)|[1-9]|0)\d*(\.\d+)?$/);
+    }
   }
-  // todo all types
 };
