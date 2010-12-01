@@ -45,7 +45,7 @@ var ValidateSimple = new Class({
     
     this.inputs = this.inputs.filter(function(input){
       return !input.hasClass(this.options.optionalClass); // todo or hidden or disabled
-    });
+    }, this);
     
     if (this.options.active)
       this.activate();
@@ -111,15 +111,16 @@ var ValidateSimple = new Class({
       var validatorType = validatorType.replace('validate-',''),
           validator = ValidateSimple.Validators[validatorType];
       
-      if (validator.test(input))
-        this.alertInputValidity(input);
-      else {
+      if (!validator.test(input)){
         input.store('validate-simple-is-valid', false);
         errors.include(validatorType);
         input.store('validate-simple-errors', errors);
         this.changeState('invalid');
       }
     }, this);
+    
+    if (input.retrieve('validate-simple-is-valid'))
+      this.alertInputValidity(input);
 
     this.checkValid();
   },
