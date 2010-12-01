@@ -44,7 +44,7 @@ var ValidateSimple = new Class({
     this.inputs  = this.options.inputs || this.element.getElements(this.options.inputSelector);
     
     this.inputs = this.inputs.filter(function(input){
-      return !input.hasClass('novalidate'); // todo or hidden or disabled
+      return !input.hasClass(this.options.optionalClass); // todo or hidden or disabled
     });
     
     if (this.options.active)
