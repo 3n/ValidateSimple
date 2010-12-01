@@ -22,8 +22,8 @@ validated._
 
 
 
-Instructions
-------------
+How to use
+----------
 
 In your HTML, add classnames of the form "validate-TYPE" where TYPE is something like "email".
 	
