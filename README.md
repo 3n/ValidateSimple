@@ -91,6 +91,7 @@ ValidateSimple Method: constructor
 #### Options
 
   * active - (boolean: defaults to true) Doesn't attach events until activated.
+  * validateOnSubmit - (boolean: defaults to true) validate all inputs on submit and fire events (see below).
   * inputSelector - (mixed: defaults to 'input') CSS Selector or input elements.
   * invalidClass - (string: defaults to 'invalid') class to add for invalid inputs.
   * validClass - (string: defaults to 'valid') class to add for valid inputs.
@@ -111,6 +112,10 @@ ValidateSimple Method: constructor
   * touched - When form has been edited.
   * valid - When form is valid.
   * invalid - When form is invalid.
+  * invalidSubmit - (Only when validateOnSubmit is true) When form is submitted and invalid.
+    Arguments: this instance and the submit event.
+  * validSubmit - (Only when validateOnSubmit is true) When form is submitted and valid.
+    Arguments: this instance and the submit event.
 
 
 ValidateSimple Method: activate
@@ -131,4 +136,14 @@ Deactivates the instance of ValidateSimple (detaches events and sill start firin
 #### Syntax
 
 	vs.deactivate();
+	
+	
+ValidateSimple Method: validateAllInputs
+---------------------------------
+
+Validates all inputs and returns true for a valid form, false for an invalid form.
+
+#### Syntax
+
+	vs.validateAllInputs();
 	
