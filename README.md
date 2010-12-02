@@ -83,13 +83,12 @@ Now in your onInputInvalid callback, you can check for "no-troll" in the errors
 array, and do something to the troll you caught. ;7
 
 
-Class Documentation
-===================
+ValidateSimple Method: constructor
+----------------------------------
 
 	var vs = new ValidateSimple(form[, options]);
 
-Options
--------
+#### Options
 
   * active - (boolean: defaults to true) Doesn't attach events until activated.
   * inputSelector - (mixed: defaults to 'input') CSS Selector or input elements.
@@ -105,8 +104,7 @@ Options
     events.
 
 
-Events
-------
+#### Events
 
   * inputValid - When an input becomes valid. Arguments: input element and this.
   * inputInvalid - When an input becomes invalid. Arguments: input element, errors array and this.
@@ -115,24 +113,22 @@ Events
   * invalid - When form is invalid.
 
 
-Method: activate
-===================
+ValidateSimple Method: activate
+-------------------------------
 
 Activates the instance of ValidateSimple (attaches events and sill start firing events).
 
-Syntax
-------
+#### Syntax
 
 	vs.activate();
 	
 
-Method: deactivate
-===================
+ValidateSimple Method: deactivate
+---------------------------------
 
 Deactivates the instance of ValidateSimple (detaches events and sill start firing events).
 
-Syntax
-------
+#### Syntax
 
 	vs.deactivate();
 	
