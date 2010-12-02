@@ -23,10 +23,11 @@ var ValidateSimple = new Class({
   
   Implements: [Events, Options],
   
-  Binds: ['checkValid'],
+  Binds: ['checkValid', 'onSubmit'],
   
   options: {
-    active: true,    
+    active: true,
+    validateOnSubmit: true,
     inputSelector: 'input',
     invalidClass: 'invalid',
     validClass: 'valid',
@@ -68,6 +69,9 @@ var ValidateSimple = new Class({
         input.store('validate-simple-callbacks', callbacks);
       }, this);
       
+      if (this.options.validateOnSubmit)
+        this.element.addEvent('submit', this.onSubmit);
+      
       if (this.options.checkPeriodical)
         this.checkForChangedInputsPeriodical = this.checkForChangedInputs.periodical(this.options.checkPeriodical, this);
     }
@@ -87,8 +91,19 @@ var ValidateSimple = new Class({
       }
       input.store('validate-simple-watching', false);
     }, this);
+    
+    if (this.options.validateOnSubmit)
+      this.element.removeEvent('submit', this.onSubmit);
         
     clearInterval(this.checkForChangedInputsPeriodical);
+  },
+  
+  onSubmit: function(e){
+    if (!this.validateAllInputs()){
+      if (e) e.preventDefault();
+      this.fireEvent('invalidSubmit', [this, e]);
+    } else
+      this.fireEvent('validSubmit', [this, e]);
   },
   
   activate: function(){ this.attach(); },
@@ -127,6 +142,13 @@ var ValidateSimple = new Class({
 
     this.checkValid();
   },
+  validateAllInputs: function(){
+    this.inputs.each(function(input){
+      this.validateInput(input);
+    }, this);
+    return this.state == 'valid';
+  },
+  
   alertInputValidity: function(input){
     if (this.state != 'untouched'){
       if (input.retrieve('validate-simple-is-valid')){
