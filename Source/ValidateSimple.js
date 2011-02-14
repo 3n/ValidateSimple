@@ -28,6 +28,7 @@ var ValidateSimple = new Class({
   options: {
     active: true,
     validateOnSubmit: true,
+    initialValidation: true,
     inputSelector: 'input',
     invalidClass: 'invalid',
     validClass: 'valid',
@@ -51,8 +52,8 @@ var ValidateSimple = new Class({
       return !input.hasClass(this.options.optionalClass); // todo or hidden or disabled
     }, this);
     
-    if (this.options.active)
-      this.activate();
+    if (this.options.active) this.activate();      
+    if (this.options.initialValidation) this.validateAllInputs();
     
     return this;
   },
@@ -61,6 +62,10 @@ var ValidateSimple = new Class({
     if (!this.active){
       this.active = true;    
       this.inputs.each(function(input){
+        input.addEvent(this.options.validateEvent, function(){
+          if (this.state == 'untouched')
+            this.changeState('touched');
+        });
         var callbacks = [this.validateInput.pass(input, this), this.alertInputValidity.pass(input, this)];
         input.addEvent(this.options.validateEvent, callbacks[0]);
         input.addEvent('change', callbacks[0]);
@@ -110,9 +115,6 @@ var ValidateSimple = new Class({
   deactivate: function(){ this.detach(); },  
   
   validateInput: function(input){
-    if (this.state == 'untouched')
-      this.changeState('touched');
-
     var validatorTypes = input.get(this.options.attributeForType),
         validators = [],    
         errors = [];
@@ -174,8 +176,11 @@ var ValidateSimple = new Class({
       var previous = input.retrieve('vs-previous-value'),
           current = input.get('value');
 
-      if (previous != current)
+      if (previous != current){
+        if (this.state == 'untouched')
+          this.changeState('touched');
         this.validateInput(input);
+      }
       
       input.store('vs-previous-value', current);
     }, this);
