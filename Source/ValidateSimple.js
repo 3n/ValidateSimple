@@ -120,7 +120,7 @@ var ValidateSimple = new Class({
         errors = [];
     
     if (this.options.attributeForType == 'class'){
-      var mtch = validatorTypes.match(/validate\-\w+/g);
+      var mtch = validatorTypes.match(/validate\-[\w-]+/g);
       validatorTypes = (mtch && mtch.length > 0) ? mtch : ['text'];
     }
     validatorTypes = $A(validatorTypes);
