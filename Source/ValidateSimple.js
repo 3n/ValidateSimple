@@ -192,6 +192,8 @@ var ValidateSimple = new Class({
   changeState: function(state){
     this.state = state;
     this.element.addClass(state);
+    if (state == 'valid') this.element.removeClass('invalid');
+    else if (state == 'invalid') this.element.removeClass('valid');    
     this.fireEvent(state, this);
   }
   
