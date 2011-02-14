@@ -240,5 +240,15 @@ ValidateSimple.Validators = {
     test: function(input){
       return input.get('value').test(/^-?(?:0$0(?=\d*\.)|[1-9]|0)\d*(\.\d+)?$/);
     }
+  },
+  'ssn': {
+    test: function(input){
+      return input.get('value').test(/^((?!000|666)[0-8]{3}-?[0-9]{2}-?[0-9]{4})$/);
+    }
+  },
+  'phone-number': {
+    test: function(input){
+      return input.get('value').test(/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})$/);
+    }
   }
 };
