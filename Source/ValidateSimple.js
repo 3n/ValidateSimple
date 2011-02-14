@@ -250,5 +250,16 @@ ValidateSimple.Validators = {
     test: function(input){
       return input.get('value').test(/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})$/);
     }
+  },
+  'zipcode': {
+    test: function(input){
+      return input.get('value').test(/^\d{5}([\-]\d{4})?$/);
+    }
+  },
+  'state': {
+    test: function(input){
+      var states = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
+      return states.contains(input.get('value').clean().toUpperCase());
+    }
   }
 };
