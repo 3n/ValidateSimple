@@ -29,6 +29,7 @@ var ValidateSimple = new Class({
     active: true,
     validateOnSubmit: true,
     initialValidation: true,
+    alertOnAutoFill: true,
     inputSelector: 'input',
     invalidClass: 'invalid',
     validClass: 'valid',
@@ -180,6 +181,7 @@ var ValidateSimple = new Class({
         if (this.state == 'untouched')
           this.changeState('touched');
         this.validateInput(input);
+        if (this.options.alertOnAutoFill) this.alertInputValidity(input);
       }
       
       input.store('vs-previous-value', current);
@@ -258,7 +260,7 @@ ValidateSimple.Validators = {
   },
   'state': {
     test: function(input){
-      var states = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
+      var states = ['AL','AK','AS','AZ','AR','AE','AA','AE','AP','CA','CO','CT','DE','DC','FM','FL','GA','GU','HI','ID','IL','IN','IA','KS','KY','LA','ME','MH','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','MP','OH','OK','OR','PW','PA','PR','RI','SC','SD','TN','TX','UT','VT','VI','VA','WA','WV','WI','WY'];
       return states.contains(input.get('value').clean().toUpperCase());
     }
   }

@@ -100,6 +100,9 @@ ValidateSimple Method: constructor
   * alertEvent - (string: defaults to 'blur') event name for initial alert of input validity.
   * correctionEvent - (string: defaults to 'keyup') event name for subsequent alerts of input validity.
   * validateEvent - (string: defaults to 'keyup') event name for input validation.
+	* alertOnAutoFill - (boolean: defaults to true) alert user of incorrect inputs on autofill. If false, 			 	
+		validation still occurs but error classes will not be applied.
+  * initialValidation - (boolean: defaults to true) validate all inputs on instantiation.
   * checkPeriodical - (number: defaults to 1000) how often to check for changed inputs. This comes
     in handy when the user uses and automated form filler like 1Password, which does not fire any
     events.
