@@ -29,7 +29,6 @@ var ValidateSimple = new Class({
     active: true,
     validateOnSubmit: true,
     initialValidation: true,
-    alertOnAutoFill: true,
     inputSelector: 'input',
     invalidClass: 'invalid',
     validClass: 'valid',
@@ -181,7 +180,6 @@ var ValidateSimple = new Class({
         if (this.state == 'untouched')
           this.changeState('touched');
         this.validateInput(input);
-        if (this.options.alertOnAutoFill) this.alertInputValidity(input);
       }
       
       input.store('vs-previous-value', current);
