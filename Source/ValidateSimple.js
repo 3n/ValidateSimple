@@ -46,6 +46,7 @@ var ValidateSimple = new Class({
     this.setOptions(options);
     
     this.element = document.id(element);
+    this.parentForm = this.element.get('tag') == 'form' ? this.element : this.element.getParent('form');
     this.inputs  = this.options.inputs || this.element.getElements(this.options.inputSelector);
     
     this.inputs = this.inputs.filter(function(input){
@@ -75,7 +76,7 @@ var ValidateSimple = new Class({
       }, this);
       
       if (this.options.validateOnSubmit)
-        this.element.addEvent('submit', this.onSubmit);
+        this.parentForm.addEvent('submit', this.onSubmit);
       
       if (this.options.checkPeriodical)
         this.checkForChangedInputsPeriodical = this.checkForChangedInputs.periodical(this.options.checkPeriodical, this);
@@ -98,7 +99,7 @@ var ValidateSimple = new Class({
     }, this);
     
     if (this.options.validateOnSubmit)
-      this.element.removeEvent('submit', this.onSubmit);
+      this.parentForm.removeEvent('submit', this.onSubmit);
         
     clearInterval(this.checkForChangedInputsPeriodical);
   },
@@ -107,6 +108,7 @@ var ValidateSimple = new Class({
     if (!this.validateAllInputs()){
       if (e) e.preventDefault();
       this.fireEvent('invalidSubmit', [this, e]);
+      this.alertAllInputs();
     } else
       this.fireEvent('validSubmit', [this, e]);
   },
@@ -169,6 +171,11 @@ var ValidateSimple = new Class({
       var callbacks = input.retrieve('validate-simple-callbacks');
       input.store('validate-simple-callbacks', callbacks.include(callback));
     }
+  },
+  alertAllInputs: function(){
+    this.inputs.each(function(input){
+      this.alertInputValidity(input);
+    }, this);
   },
   
   checkForChangedInputs: function(){
@@ -233,7 +240,8 @@ ValidateSimple.Validators = {
   },
   'alphanumeric': {
     test: function(input){
-      return !input.get('value').test(/\W/);
+      var value = input.get('value');
+      return value.length > 0 & !value.test(/\W/);
     }
   },
   'numeric': {
