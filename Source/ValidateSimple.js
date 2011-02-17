@@ -45,7 +45,7 @@ var ValidateSimple = new Class({
   initialize: function(element, options){
     this.setOptions(options);
     
-    this.element = document.id(element);
+    this.element = document.id(element).addClass('untouched');
     this.parentForm = this.element.get('tag') == 'form' ? this.element : this.element.getParent('form');
     this.inputs  = this.options.inputs || this.element.getElements(this.options.inputSelector);
     
@@ -64,9 +64,9 @@ var ValidateSimple = new Class({
       this.active = true;    
       this.inputs.each(function(input){
         input.addEvent(this.options.validateEvent, function(){
-          if (this.state == 'untouched')
+          if (this.element.hasClass('untouched'))
             this.changeState('touched');
-        });
+        }.bind(this));
         var callbacks = [this.validateInput.pass(input, this), this.alertInputValidity.pass(input, this)];
         input.addEvent(this.options.validateEvent, callbacks[0]);
         input.addEvent('change', callbacks[0]);
@@ -184,7 +184,7 @@ var ValidateSimple = new Class({
           current = input.get('value');
 
       if (previous != current){
-        if (this.state == 'untouched')
+        if (this.element.hasClass('untouched'))
           this.changeState('touched');
         this.validateInput(input);
       }
@@ -206,6 +206,7 @@ var ValidateSimple = new Class({
     this.element.addClass(state);
     if (state == 'valid') this.element.removeClass('invalid');
     else if (state == 'invalid') this.element.removeClass('valid');    
+    else if (state == 'touched') this.element.removeClass('untouched');
     this.fireEvent(state, this);
   }
   
