@@ -29,6 +29,7 @@ var ValidateSimple = new Class({
     active: true,
     validateOnSubmit: true,
     initialValidation: true,
+    alertUnedited: true,
     inputSelector: 'input',
     invalidClass: 'invalid',
     validClass: 'valid',
@@ -63,7 +64,8 @@ var ValidateSimple = new Class({
     if (!this.active){
       this.active = true;    
       this.inputs.each(function(input){
-        input.addEvent(this.options.validateEvent, function(){
+        input.addEvent(this.options.validateEvent, function(e){
+          if (e.key !== 'tab') input.store('validate-simple-touched', true);
           if (this.element.hasClass('untouched'))
             this.changeState('touched');
         }.bind(this));
@@ -154,25 +156,29 @@ var ValidateSimple = new Class({
   },
   
   alertInputValidity: function(input){
-    if (this.state != 'untouched'){
-      if (input.retrieve('validate-simple-is-valid')){
+    var inputValid = input.retrieve('validate-simple-is-valid'),
+        isEdited = this.options.alertUnedited ? true : input.retrieve('validate-simple-touched');
+
+    if (this.state != 'untouched' && isEdited){
+      if (inputValid){
         input.addClass(this.options.validClass).removeClass(this.options.invalidClass);
         this.fireEvent('inputValid', [input, this]);
       } else {
         input.addClass(this.options.invalidClass).removeClass(this.options.validClass);
         this.fireEvent('inputInvalid', [input, input.retrieve('validate-simple-errors'), this]);
       }
-    }
-    
-    if (!input.retrieve('validate-simple-watching')){
-      var callback = this.alertInputValidity.pass(input, this);
-      input.addEvent(this.options.correctionEvent, callback);
-      input.store('validate-simple-watching', true);
-      var callbacks = input.retrieve('validate-simple-callbacks');
-      input.store('validate-simple-callbacks', callbacks.include(callback));
+      
+      if (!input.retrieve('validate-simple-watching')){
+        var callback = this.alertInputValidity.pass(input, this);
+        input.addEvent(this.options.correctionEvent, callback);
+        input.store('validate-simple-watching', true);
+        var callbacks = input.retrieve('validate-simple-callbacks');
+        input.store('validate-simple-callbacks', callbacks.include(callback));
+      }
     }
   },
   alertAllInputs: function(){
+    this.options.alertUnedited = true;
     this.inputs.each(function(input){
       this.alertInputValidity(input);
     }, this);
