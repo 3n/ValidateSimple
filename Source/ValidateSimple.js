@@ -9,6 +9,7 @@ requires:
   - Core/Class.Extras
   - Core/Element.Event
   - More/Events.Pseudos
+  - More/Element.Event.Pseudos
   - More/Class.Binds
 
 provides: [ValidateSimple]
@@ -36,9 +37,10 @@ var ValidateSimple = new Class({
     optionalClass: 'optional',
     attributeForType: 'class',
     alertEvent: 'blur',
-    correctionEvent: 'keyup',
-    validateEvent: 'keyup',
-    checkPeriodical: 1000
+    correctionEvent: 'keyup:filterInvalidKeys',
+    validateEvent: 'keyup:filterInvalidKeys',
+    checkPeriodical: 1000,
+    noValidateKeys: ['left','right','up','down','esc','tab','command','option','shift','control']
   },
   
   state: 'untouched',
@@ -53,6 +55,11 @@ var ValidateSimple = new Class({
     this.inputs = this.inputs.filter(function(input){
       return !input.hasClass(this.options.optionalClass); // todo or hidden or disabled
     }, this);
+
+    Event.definePseudo('filterInvalidKeys', function(split, fn, args){
+      if (!this.options.noValidateKeys.contains(args[0].key))
+        fn.apply(this, args);
+    }.bind(this));
     
     if (this.options.active) this.activate();      
     if (this.options.initialValidation) this.validateAllInputs();
@@ -283,3 +290,8 @@ ValidateSimple.Validators = {
     }
   }
 };
+
+Event.Keys['command'] = 91;
+Event.Keys['option'] = 18;
+Event.Keys['shift'] = 16;
+Event.Keys['control'] = 17;
