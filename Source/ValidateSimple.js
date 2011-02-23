@@ -139,7 +139,7 @@ var ValidateSimple = new Class({
       
       if (!testResult)
         this.invalidateInput(input, validatorType);
-      else if (typeOf(testResult) == 'array' && validator.postMatch)
+      else if (validator.postMatch)
         validator.postMatch(testResult, input);
         
     }, this);
