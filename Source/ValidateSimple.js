@@ -274,7 +274,7 @@ ValidateSimple.Validators = {
   },
   'zipcode': {
     test: function(input){
-      return input.get('value').test(/^\d{5}([\-]\d{4})?$/);
+      return input.get('value').test(/^\d{5}(-?\d{4})?$/);
     }
   },
   'state': {
