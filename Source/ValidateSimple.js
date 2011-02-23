@@ -75,6 +75,7 @@ var ValidateSimple = new Class({
         input.addEvent(this.options.alertEvent, callbacks[1]);
         input.store('vs-previous-value', input.get('value'));        
         input.store('validate-simple-callbacks', callbacks);
+        input.store('validate-simple-instance', this);
       }, this);
       
       if (this.options.validateOnSubmit)
@@ -104,6 +105,7 @@ var ValidateSimple = new Class({
       this.parentForm.removeEvent('submit', this.onSubmit);
         
     clearInterval(this.checkForChangedInputsPeriodical);
+    return this;
   },
   
   onSubmit: function(e){
@@ -120,8 +122,7 @@ var ValidateSimple = new Class({
   
   validateInput: function(input){
     var validatorTypes = input.get(this.options.attributeForType),
-        validators = [],    
-        errors = [];
+        validators = [];
     
     if (this.options.attributeForType == 'class'){
       var mtch = validatorTypes.match(/validate\-[\w-]+/g);
@@ -135,24 +136,29 @@ var ValidateSimple = new Class({
       var validatorType = validatorType.replace('validate-',''),
           validator = ValidateSimple.Validators[validatorType];
       
-      if (!validator.test(input)){
-        input.store('validate-simple-is-valid', false);
-        errors.include(validatorType);
-        input.store('validate-simple-errors', errors);
-        this.changeState('invalid');
-      }
+      if (!validator.test(input))
+        this.invalidateInput(input, validatorType);
     }, this);
     
     if (input.retrieve('validate-simple-is-valid'))
       this.alertInputValidity(input);
 
     this.checkValid();
+    return this;
   },
   validateAllInputs: function(){
     this.inputs.each(function(input){
       this.validateInput(input);
     }, this);
     return this.state == 'valid';
+  },
+  
+  invalidateInput: function(input, validatorType){
+    var errors = input.retrieve('validate-simple-errors') || [];
+    input.store('validate-simple-is-valid', false);
+    input.store('validate-simple-errors', errors.include(validatorType));
+    this.changeState('invalid');
+    return this;
   },
   
   alertInputValidity: function(input){
@@ -176,12 +182,14 @@ var ValidateSimple = new Class({
         input.store('validate-simple-callbacks', callbacks.include(callback));
       }
     }
+    return this;
   },
   alertAllInputs: function(){
     this.options.alertUnedited = true;
     this.inputs.each(function(input){
       this.alertInputValidity(input);
     }, this);
+    return this;
   },
   
   checkForChangedInputs: function(){
@@ -197,6 +205,7 @@ var ValidateSimple = new Class({
       
       input.store('vs-previous-value', current);
     }, this);
+    return this;
   },
 
   checkValid: function(){
@@ -205,6 +214,7 @@ var ValidateSimple = new Class({
     }, this);
     
     this.changeState(allInputsValidOrOptional ? 'valid' : 'invalid');
+    return this;
   },
   
   changeState: function(state){
@@ -214,6 +224,7 @@ var ValidateSimple = new Class({
     else if (state == 'invalid') this.element.removeClass('valid');    
     else if (state == 'touched') this.element.removeClass('untouched');
     this.fireEvent(state, this);
+    return this;
   }
   
 });
