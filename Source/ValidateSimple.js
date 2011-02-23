@@ -134,10 +134,14 @@ var ValidateSimple = new Class({
 
     validatorTypes.each(function(validatorType){
       var validatorType = validatorType.replace('validate-',''),
-          validator = ValidateSimple.Validators[validatorType];
+          validator = ValidateSimple.Validators[validatorType],
+          testResult = validator.test(input);
       
-      if (!validator.test(input))
+      if (!testResult)
         this.invalidateInput(input, validatorType);
+      else if (typeOf(testResult) == 'array' && validator.postMatch)
+        validator.postMatch(testResult, input);
+        
     }, this);
     
     if (input.retrieve('validate-simple-is-valid'))

@@ -82,6 +82,8 @@ You could create this validator anywhere in your Javascript:
 Now in your onInputInvalid callback, you can check for "no-troll" in the errors
 array, and do something to the troll you caught. ;7
 
+A validator can optionally have a 'postMatch' method that will be called upon a successful test, if the test returned the result of a call to String.match. It will be passed the match data, and the input that was tested. This is useful for reformatting valid input a format of your choice, for normalization.
+
 
 ValidateSimple Method: constructor
 ----------------------------------
