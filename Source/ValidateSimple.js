@@ -69,7 +69,17 @@ var ValidateSimple = new Class({
   
   attach: function(){
     if (!this.active){
-      this.active = true;    
+      this.active = true;
+      
+      $(document.body).addEvent('keydown', function(e){
+        if (this.options.noValidateKeys.contains(e.key))
+          this.active = false;          
+      }.bind(this));
+      $(document.body).addEvent('keyup', function(e){
+        if (this.options.noValidateKeys.contains(e.key))
+          (function(){ this.active = true; }).delay(100, this);
+      }.bind(this));
+      
       this.inputs.each(function(input){
         input.addEvent(this.options.validateEvent, function(e){
           if (e.key !== 'tab') input.store('validate-simple-touched', true);
@@ -128,6 +138,7 @@ var ValidateSimple = new Class({
   deactivate: function(){ this.detach(); },  
   
   validateInput: function(input){
+    if (!this.active) return this;
     var validatorTypes = input.get(this.options.attributeForType),
         validators = [];
     
@@ -173,6 +184,7 @@ var ValidateSimple = new Class({
   },
   
   alertInputValidity: function(input){
+    if (!this.active) return this;
     var inputValid = input.retrieve('validate-simple-is-valid'),
         isEdited = this.options.alertUnedited ? true : input.retrieve('validate-simple-touched');
 
