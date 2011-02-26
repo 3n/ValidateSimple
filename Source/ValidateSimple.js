@@ -72,11 +72,11 @@ var ValidateSimple = new Class({
       this.active = true;
       
       $(document.body).addEvent('keydown', function(e){
-        if (this.options.noValidateKeys.contains(e.key))
+        if (e.key !== 'tab' && this.options.noValidateKeys.contains(e.key))
           this.active = false;          
       }.bind(this));
       $(document.body).addEvent('keyup', function(e){
-        if (this.options.noValidateKeys.contains(e.key))
+        if (e.key !== 'tab' && this.options.noValidateKeys.contains(e.key))
           (function(){ this.active = true; }).delay(100, this);
       }.bind(this));
       
