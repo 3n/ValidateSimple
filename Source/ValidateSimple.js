@@ -264,6 +264,11 @@ ValidateSimple.Validators = {
       return ((input.get('value') != null) && (input.get('value').length > 0));       
     }
   },
+  'checked': {
+    test: function(input){
+      return input.checked;       
+    }
+  },
   'name': {
     test: function(input){
       return input.get('value').test(/^[A-Za-z -'&]+$/);
