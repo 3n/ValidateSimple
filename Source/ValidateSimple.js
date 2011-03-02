@@ -74,7 +74,7 @@ var ValidateSimple = new Class({
       $(document.body).addEvent('keydown:relay(' + this.options.inputSelector + ')', function(e){
         if (e.key !== 'tab' && this.options.noValidateKeys.contains(e.key)){
           this.active = false;
-          (function(){ this.active = true; }).delay(2000, this);
+          (function(){ this.active = true; }).delay(1000, this);
         }          
       }.bind(this));
       $(document.body).addEvent('keyup:relay(' + this.options.inputSelector + ')', function(e){
