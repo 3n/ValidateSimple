@@ -71,11 +71,13 @@ var ValidateSimple = new Class({
     if (!this.active){
       this.active = true;
       
-      $(document.body).addEvent('keydown', function(e){
-        if (e.key !== 'tab' && this.options.noValidateKeys.contains(e.key))
-          this.active = false;          
+      $(document.body).addEvent('keydown:relay(' + this.options.inputSelector + ')', function(e){
+        if (e.key !== 'tab' && this.options.noValidateKeys.contains(e.key)){
+          this.active = false;
+          (function(){ this.active = true; }).delay(2000, this);
+        }          
       }.bind(this));
-      $(document.body).addEvent('keyup', function(e){
+      $(document.body).addEvent('keyup:relay(' + this.options.inputSelector + ')', function(e){
         if (e.key !== 'tab' && this.options.noValidateKeys.contains(e.key))
           (function(){ this.active = true; }).delay(100, this);
       }.bind(this));
