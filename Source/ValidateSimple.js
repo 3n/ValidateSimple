@@ -166,8 +166,10 @@ var ValidateSimple = new Class({
         
     }, this);
     
-    if (input.retrieve('validate-simple-is-valid'))
-      this.alertInputValidity(input);
+    if (input.retrieve('validate-simple-is-valid')){
+      input.store('validate-simple-errors', null);
+      this.alertInputValidity(input);      
+    }
 
     this.checkValid();
     return this;
