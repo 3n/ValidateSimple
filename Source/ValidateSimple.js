@@ -52,6 +52,8 @@ var ValidateSimple = new Class({
     this.parentForm = this.element.get('tag') == 'form' ? this.element : this.element.getParent('form');
     this.inputs  = this.options.inputs || this.element.getElements(this.options.inputSelector);
     
+    this.element.store('validate-simple-instance', this);
+    
     this.inputs = this.inputs.filter(function(input){
       return !input.hasClass(this.options.optionalClass); // todo or hidden or disabled
     }, this);
