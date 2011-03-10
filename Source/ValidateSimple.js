@@ -213,7 +213,7 @@ var ValidateSimple = new Class({
         var callback = this.alertInputValidity.pass(input, this);
         input.addEvent(this.options.correctionEvent, callback);
         input.store('validate-simple-watching', true);
-        var callbacks = input.retrieve('validate-simple-callbacks');
+        var callbacks = input.retrieve('validate-simple-callbacks') || [];
         input.store('validate-simple-callbacks', callbacks.include(callback));
       }
     }
