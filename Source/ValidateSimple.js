@@ -39,7 +39,7 @@ var ValidateSimple = new Class({
     alertEvent: 'blur',
     correctionEvent: 'keyup:filterInvalidKeys',
     validateEvent: 'keyup:filterInvalidKeys',
-    checkPeriodical: 1000,
+    checkPeriodical: 500,
     noValidateKeys: ['left','right','up','down','esc','tab','command','option','shift','control']
   },
   
@@ -85,15 +85,18 @@ var ValidateSimple = new Class({
       }.bind(this));
       
       this.inputs.each(function(input){
-        input.addEvent(this.options.validateEvent, function(e){
+        var validateEvent = input.get('type').test(/select|radio|checkbox/) ? 'click' : this.options.validateEvent;
+        input.addEvent(validateEvent, function(e){
           if (e.key !== 'tab') input.store('validate-simple-touched', true);
           if (this.element.hasClass('untouched'))
             this.changeState('touched');
         }.bind(this));
+
         var callbacks = [this.validateInput.pass(input, this), this.alertInputValidity.pass(input, this)];
-        input.addEvent(this.options.validateEvent, callbacks[0]);
+        input.addEvent(validateEvent, callbacks[0]);
         input.addEvent('change', callbacks[0]);
         input.addEvent(this.options.alertEvent, callbacks[1]);
+
         input.store('vs-previous-value', input.get('value'));        
         input.store('validate-simple-callbacks', callbacks);
         input.store('validate-simple-instance', this);
@@ -143,6 +146,9 @@ var ValidateSimple = new Class({
   
   validateInput: function(input){
     if (!this.active) return this;
+    
+    if (input.get('tag') == 'option') return this.validateInput(input.getParent());
+    
     var validatorTypes = input.get(this.options.attributeForType),
         validators = [];
     
@@ -224,7 +230,7 @@ var ValidateSimple = new Class({
   checkForChangedInputs: function(){
     this.inputs.each(function(input){
       var previous = input.retrieve('vs-previous-value'),
-          current = input.get('value');
+          current = input.get('type').test(/radio|checkbox/) ? input.get('checked') : input.get('value');
 
       if (previous != current){
         if (this.element.hasClass('untouched'))
