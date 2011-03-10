@@ -85,11 +85,9 @@ var ValidateSimple = new Class({
       }.bind(this));
       
       this.inputs.each(function(input){
-        var validateEvent = input.get('type').test(/select|radio|checkbox/) ? 'click' : this.options.validateEvent;
+        var validateEvent = input.get('type').test(/select|radio|checkbox/) ? 'change' : this.options.validateEvent;
         input.addEvent(validateEvent, function(e){
-          if (e.key !== 'tab') input.store('validate-simple-touched', true);
-          if (this.element.hasClass('untouched'))
-            this.changeState('touched');
+          if (e.key !== 'tab') this.inputTouched(input);
         }.bind(this));
 
         var callbacks = [this.validateInput.pass(input, this), this.alertInputValidity.pass(input, this)];
@@ -143,6 +141,15 @@ var ValidateSimple = new Class({
   
   activate: function(){ this.attach(); },
   deactivate: function(){ this.detach(); },  
+  
+  inputTouched: function(input){
+    if (!input.retrieve('validate-simple-touched')){
+      input.store('validate-simple-touched', true);
+      this.fireEvent('inputTouched', [input, this]);
+    } 
+    if (this.element.hasClass('untouched'))
+      this.changeState('touched');
+  },
   
   validateInput: function(input){
     if (!this.active) return this;
@@ -233,11 +240,9 @@ var ValidateSimple = new Class({
           current = input.get('type').test(/radio|checkbox/) ? input.get('checked') : input.get('value');
 
       if (previous != current){
-        if (this.element.hasClass('untouched'))
-          this.changeState('touched');
+        this.inputTouched(input);
         this.validateInput(input);
-      }
-      
+      }      
       input.store('vs-previous-value', current);
     }, this);
     return this;
