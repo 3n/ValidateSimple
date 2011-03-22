@@ -304,7 +304,7 @@ ValidateSimple.Validators = {
   'alphanumeric': {
     test: function(input){
       var value = input.get('value');
-      return value.length > 0 & !value.test(/\W/);
+      return value.length > 0 && !value.test(/\W/);
     }
   },
   'numeric': {
