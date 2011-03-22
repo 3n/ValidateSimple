@@ -152,7 +152,7 @@ var ValidateSimple = new Class({
   },
   
   validateInput: function(input){
-    if (!this.active) return this;
+    if (!this.active || input == undefined) return this;
     
     if (input.get('tag') == 'option') return this.validateInput(input.getParent());
     
@@ -203,7 +203,7 @@ var ValidateSimple = new Class({
   },
   
   alertInputValidity: function(input){
-    if (!this.active) return this;
+    if (!this.active || input == undefined) return this;
     var inputValid = input.retrieve('validate-simple-is-valid'),
         isEdited = this.options.alertUnedited ? true : input.retrieve('validate-simple-touched');
 
