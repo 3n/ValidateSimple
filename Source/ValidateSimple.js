@@ -30,6 +30,7 @@ var ValidateSimple = new Class({
     active: true,
     validateOnSubmit: true,
     initialValidation: true,
+    alertPrefilled: true,
     alertUnedited: true,
     inputSelector: 'input',
     invalidClass: 'invalid',
@@ -95,7 +96,14 @@ var ValidateSimple = new Class({
         input.addEvent('change', callbacks[0]);
         input.addEvent(this.options.alertEvent, callbacks[1]);
 
-        input.store('vs-previous-value', input.get('value'));        
+        var prevValue = this.getInputValue(input);
+        input.store('vs-previous-value', prevValue);        
+        if (this.options.alertPrefilled && prevValue){
+          this.inputTouched(input);
+          this.validateInput(input);
+          this.alertInputValidity(input);
+        }
+        
         input.store('validate-simple-callbacks', callbacks);
         input.store('validate-simple-instance', this);
       }, this);
@@ -234,10 +242,14 @@ var ValidateSimple = new Class({
     return this;
   },
   
+  getInputValue: function(input){
+    return input.get('type').test(/radio|checkbox/) ? input.get('checked') : input.get('value');
+  },
+  
   checkForChangedInputs: function(){
     this.inputs.each(function(input){
       var previous = input.retrieve('vs-previous-value'),
-          current = input.get('type').test(/radio|checkbox/) ? input.get('checked') : input.get('value');
+          current = this.getInputValue(input);
 
       if (previous != current){
         this.inputTouched(input);

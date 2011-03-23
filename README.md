@@ -103,7 +103,8 @@ ValidateSimple Method: constructor
   * correctionEvent - (string: defaults to 'keyup') event name for subsequent alerts of input validity.
   * validateEvent - (string: defaults to 'keyup') event name for input validation.
   * initialValidation - (boolean: defaults to true) validate all inputs on instantiation.
-  * alertUnedited - (boolean: defaults to true) alert inputs that have not been edited. 
+  * alertUnedited - (boolean: defaults to true) validate/alert inputs that have not been edited. 
+  * alertPrefilled - (boolean: defaults to true) validate/alert inputs that have a value on page load.
   * noValidateKeys - (array) array of key codes (event.key) that will disable validation during keypress.
   * checkPeriodical - (number: defaults to 1000) how often to check for changed inputs. This comes
     in handy when the user uses and automated form filler like 1Password, which does not fire any
