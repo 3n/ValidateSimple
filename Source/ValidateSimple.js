@@ -56,7 +56,7 @@ var ValidateSimple = new Class({
     this.element.store('validate-simple-instance', this);
     
     this.inputs = this.inputs.filter(function(input){
-      return !input.hasClass(this.options.optionalClass); // todo or hidden or disabled
+      return !input.hasClass(this.options.optionalClass) && !input.get('disabled');
     }, this);
 
     Event.definePseudo('filterInvalidKeys', function(split, fn, args){
