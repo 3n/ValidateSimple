@@ -254,6 +254,7 @@ var ValidateSimple = new Class({
       if (previous != current){
         this.inputTouched(input);
         this.validateInput(input);
+        this.alertInputValidity(input);
       }      
       input.store('vs-previous-value', current);
     }, this);
