@@ -86,6 +86,8 @@ var ValidateSimple = new Class({
       }.bind(this));
       
       this.inputs.each(function(input){
+        input.addFocusedProperty();
+        
         var validateEvent = input.get('type').test(/select|radio|checkbox/) ? 'change' : this.options.validateEvent;
         input.addEvent(validateEvent, function(e){
           if (e.key !== 'tab') this.inputTouched(input);
@@ -254,7 +256,7 @@ var ValidateSimple = new Class({
       if (previous != current){
         this.inputTouched(input);
         this.validateInput(input);
-        this.alertInputValidity(input);
+        if (!input.retrieve('focused')) this.alertInputValidity(input);
       }      
       input.store('vs-previous-value', current);
     }, this);
@@ -344,3 +346,11 @@ Event.Keys['command'] = 91;
 Event.Keys['option'] = 18;
 Event.Keys['shift'] = 16;
 Event.Keys['control'] = 17;
+
+Element.implement({
+	addFocusedProperty: function(){
+		this.store('focused', false);
+		this.addEvent('focus', (function(){ this.store('focused', true);  }).bind(this));
+		this.addEvent('blur',  (function(){ this.store('focused', false); }).create({ bind: this, delay: 500 }));
+	}
+});
