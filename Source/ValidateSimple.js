@@ -162,7 +162,8 @@ var ValidateSimple = new Class({
   },
   
   validateInput: function(input){
-    if (!this.active || input == undefined) return this;
+    if (!this.active || input == undefined || input.retrieve('validate-simple-locked')) 
+      return this;
     
     if (input.get('tag') == 'option') return this.validateInput(input.getParent());
     
@@ -205,15 +206,25 @@ var ValidateSimple = new Class({
   },
   
   invalidateInput: function(input, validatorType){
+    if (input.retrieve('validate-simple-locked')) return this;
     var errors = input.retrieve('validate-simple-errors') || [];
     input.store('validate-simple-is-valid', false);
     input.store('validate-simple-errors', errors.include(validatorType));
     this.changeState('invalid');
     return this;
   },
+  lockInput: function(input){
+    input.store('validate-simple-locked', true);
+    return this;   
+  },
+  unlockInput: function(input){
+    input.store('validate-simple-locked', false);
+    return this;
+  },
   
   alertInputValidity: function(input){
     if (!this.active || input == undefined) return this;
+      
     var inputValid = input.retrieve('validate-simple-is-valid'),
         isEdited = this.options.alertUnedited ? true : input.retrieve('validate-simple-touched');
 
