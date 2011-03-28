@@ -183,10 +183,12 @@ var ValidateSimple = new Class({
           validator = ValidateSimple.Validators[validatorType],
           testResult = validator.test(input);
       
-      if (!testResult)
-        this.invalidateInput(input, validatorType);
-      else if (validator.postMatch)
-        validator.postMatch(testResult, input);        
+      if (testResult){
+        this.removeErrorFromInput(input, validatorType);
+        if (validator.postMatch)
+          validator.postMatch(testResult, input);
+      } else
+        this.invalidateInput(input, validatorType);        
     }, this);
     
     if (input.retrieve('validate-simple-is-valid')){
@@ -204,11 +206,20 @@ var ValidateSimple = new Class({
     return this.state == 'valid';
   },
   
+  addErrorToInput: function(input, error){
+    var errors = input.retrieve('validate-simple-errors') || [];
+    input.store('validate-simple-errors', errors.include(error));
+  },
+  removeErrorFromInput: function(input, error){
+    var errors = input.retrieve('validate-simple-errors');
+    if (errors && errors.length > 0)
+      input.store('validate-simple-errors', errors.erase(error));
+  },
+  
   invalidateInput: function(input, validatorType){
     if (input.retrieve('validate-simple-locked')) return this;
-    var errors = input.retrieve('validate-simple-errors') || [];
     input.store('validate-simple-is-valid', false);
-    input.store('validate-simple-errors', errors.include(validatorType));
+    this.addErrorToInput(input, validatorType);
     this.changeState('invalid');
     return this;
   },
