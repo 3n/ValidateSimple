@@ -186,8 +186,7 @@ var ValidateSimple = new Class({
       if (!testResult)
         this.invalidateInput(input, validatorType);
       else if (validator.postMatch)
-        validator.postMatch(testResult, input);
-        
+        validator.postMatch(testResult, input);        
     }, this);
     
     if (input.retrieve('validate-simple-is-valid')){
