@@ -190,9 +190,9 @@ var ValidateSimple = new Class({
     
     this._getValidatorTypesForInput(input).each(function(validatorType){
       var validator = ValidateSimple.Validators[validatorType],
-          handleValidatorResult = function(testResult, shouldAlert){
+          handleValidatorResult = function(testResult){
             testResult ? this._validatorWasValid(input, validatorType, testResult)
-                       : this._validatorWasInvalid(input, validatorType, shouldAlert);
+                       : this._validatorWasInvalid(input, validatorType, validator.async);
           }.bind(this);
           
       if (validator.async){
