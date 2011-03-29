@@ -41,7 +41,7 @@ var ValidateSimple = new Class({
     correctionEvent: 'keyup:filterInvalidKeys',
     validateEvent: 'keyup:filterInvalidKeys',
     checkPeriodical: 500,
-    noValidateKeys: ['left','right','up','down','esc','tab','command','option','shift','control']
+    noValidateKeys: ['left','right','up','down','esc','tab','command','option','control']
   },
   
   state: 'untouched',
