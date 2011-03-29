@@ -169,6 +169,15 @@ var ValidateSimple = new Class({
     }
     return $A(validatorTypes).map(function(vt){ return vt.replace('validate-',''); });
   },
+  _validatorWasValid: function(input, validatorType, testResult){
+    var validator = ValidateSimple.Validators[validatorType];
+    this.removeErrorFromInput(input, validatorType);
+    if (validator.postMatch)
+      validator.postMatch(testResult, input);
+  },
+  _validatorWasInvalid: function(input, validatorType){
+    this.invalidateInput(input, validatorType);
+  },
   
   validateInput: function(input){
     if (!this.active || input == undefined || input.retrieve('validate-simple-locked')) 
@@ -177,17 +186,17 @@ var ValidateSimple = new Class({
       return this.validateInput(input.getParent());
 
     input.store('validate-simple-is-valid', true);
-        
+    
     this._getValidatorTypesForInput(input).each(function(validatorType){
-      var validator = ValidateSimple.Validators[validatorType],
-          testResult = validator.test(input);
+      var validator = ValidateSimple.Validators[validatorType];
       
-      if (testResult){
-        this.removeErrorFromInput(input, validatorType);
-        if (validator.postMatch)
-          validator.postMatch(testResult, input);
-      } else
-        this.invalidateInput(input, validatorType);        
+      if (validator.async){
+        
+      } else {
+        var testResult = validator.test(input);      
+        testResult ? this._validatorWasValid(input, validatorType, testResult)
+                   : this._validatorWasInvalid(input, validatorType);
+      }  
     }, this);
     
     if (input.retrieve('validate-simple-is-valid')){
