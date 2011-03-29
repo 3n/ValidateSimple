@@ -131,6 +131,7 @@ ValidateSimple Method: constructor
 
   * inputValid - When an input becomes valid. Arguments: input element and this.
   * inputInvalid - When an input becomes invalid. Arguments: input element, errors array and this.
+  * inputTouched - When an input is first edited. Arguments: input element and this.
   * touched - When form has been edited.
   * valid - When form is valid.
   * invalid - When form is invalid.
