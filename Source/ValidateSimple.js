@@ -188,14 +188,17 @@ var ValidateSimple = new Class({
     input.store('validate-simple-is-valid', true);
     
     this._getValidatorTypesForInput(input).each(function(validatorType){
-      var validator = ValidateSimple.Validators[validatorType];
-      
+      var validator = ValidateSimple.Validators[validatorType],
+          handleValidatorResult = function(testResult){
+            testResult ? this._validatorWasValid(input, validatorType, testResult)
+                       : this._validatorWasInvalid(input, validatorType);
+          }.bind(this);
+          
       if (validator.async){
-        
+        validator.test(handleValidatorResult);
       } else {
         var testResult = validator.test(input);      
-        testResult ? this._validatorWasValid(input, validatorType, testResult)
-                   : this._validatorWasInvalid(input, validatorType);
+        handleValidatorResult(testResult);
       }  
     }, this);
     
