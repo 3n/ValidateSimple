@@ -161,26 +161,25 @@ var ValidateSimple = new Class({
       this.changeState('touched');
   },
   
-  validateInput: function(input){
-    if (!this.active || input == undefined || input.retrieve('validate-simple-locked')) 
-      return this;
-    
-    if (input.get('tag') == 'option') return this.validateInput(input.getParent());
-    
-    var validatorTypes = input.get(this.options.attributeForType),
-        validators = [];
-    
+  _getValidatorTypesForInput: function(input){
+    var validatorTypes = input.get(this.options.attributeForType);    
     if (this.options.attributeForType == 'class'){
       var mtch = validatorTypes.match(/validate\-[\w-]+/g);
       validatorTypes = (mtch && mtch.length > 0) ? mtch : ['text'];
     }
-    validatorTypes = $A(validatorTypes);
-    
-    input.store('validate-simple-is-valid', true);
+    return $A(validatorTypes).map(function(vt){ return vt.replace('validate-',''); });
+  },
+  
+  validateInput: function(input){
+    if (!this.active || input == undefined || input.retrieve('validate-simple-locked')) 
+      return this;    
+    else if (input.get('tag') == 'option') 
+      return this.validateInput(input.getParent());
 
-    validatorTypes.each(function(validatorType){
-      var validatorType = validatorType.replace('validate-',''),
-          validator = ValidateSimple.Validators[validatorType],
+    input.store('validate-simple-is-valid', true);
+        
+    this._getValidatorTypesForInput(input).each(function(validatorType){
+      var validator = ValidateSimple.Validators[validatorType],
           testResult = validator.test(input);
       
       if (testResult){
