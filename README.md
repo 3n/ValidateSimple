@@ -3,20 +3,16 @@ ValidateSimple
 
 A MooTools class for realtime, client-side validation of form inputs. Given a form it will
 fire events as inputs become valid/invalid as the user is typing. It will also, of course,
-alert you when the entire form is valid. 
+alert you when the entire form is valid.
 
-For now, specifying which inputs are validated and via what criteria are done through class
-names. This could probably switch over to data attributes at some point, but I don't want to
-do all that browser testing (help?).
-
-Validators themselves are configurable, and a small set of them is provided to get you 
-started (in the ValidateSimple.Validators object).
+Validators themselves can be created by you, and a small set of them is provided to get you 
+started (in the ValidateSimple.Validators object). Validators can optionally be asynchronous, which is useful when using some server-side validation logic.
 
 _Note: this is not a drop-in "plugin" that will do everything for you. This code does not
 enforce and kind of UI whatsoever, it just fires events and lets you handle what is 
-displayed. If you want a more powerful, hands-off validator use the standard MooTools More
-one. I created this to be more light-weight and have greater flexibility in when forms are 
-validated._
+displayed. If you want a more hands-off validator use the standard MooTools More
+one. I created this to be more light-weight, have greater flexibility in when forms are 
+validated and handle asynchronous validations._
 
 ![Screenshot](http://idisk.me.com/iancollins/Public/Pictures/Skitch/BankSimple_%7C_Home-20101201-135604.png)
 
