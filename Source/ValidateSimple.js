@@ -175,8 +175,9 @@ var ValidateSimple = new Class({
     if (validator.postMatch)
       validator.postMatch(testResult, input);
   },
-  _validatorWasInvalid: function(input, validatorType){
+  _validatorWasInvalid: function(input, validatorType, shouldAlert){
     this.invalidateInput(input, validatorType);
+    if (shouldAlert) this.alertInputValidity(input);
   },
   
   validateInput: function(input){
@@ -189,13 +190,16 @@ var ValidateSimple = new Class({
     
     this._getValidatorTypesForInput(input).each(function(validatorType){
       var validator = ValidateSimple.Validators[validatorType],
-          handleValidatorResult = function(testResult){
+          handleValidatorResult = function(testResult, shouldAlert){
             testResult ? this._validatorWasValid(input, validatorType, testResult)
-                       : this._validatorWasInvalid(input, validatorType);
+                       : this._validatorWasInvalid(input, validatorType, shouldAlert);
           }.bind(this);
           
       if (validator.async){
-        validator.test(handleValidatorResult);
+        (function(){
+          if (input.retrieve('validate-simple-is-valid'))
+            validator.test(input, handleValidatorResult); 
+        }).afterNoCallsIn(10);
       } else {
         var testResult = validator.test(input);      
         handleValidatorResult(testResult);
@@ -385,4 +389,11 @@ Element.implement({
 		this.addEvent('focus', (function(){ this.store('focused', true);  }).bind(this));
 		this.addEvent('blur',  (function(){ this.store('focused', false); }).create({ bind: this, delay: 500 }));
 	}
+});
+
+Function.implement({
+  afterNoCallsIn: function(time, bind, args){
+    clearTimeout(this._afterNoCallsInDelayId);
+    this._afterNoCallsInDelayId = this.delay(time, bind, args);
+  }
 });
