@@ -84,6 +84,23 @@ array, and do something to the troll you caught. ;7
 
 A validator can optionally have a 'postMatch' method that will be called upon a successful test, if the test returned the result of a call to String.match. It will be passed the match data, and the input that was tested. This is useful for reformatting valid input a format of your choice, for normalization.
 
+## Asynchronous Validators
+
+If a validator object definition includes async: true, that test will be treated as an asynchronous test. This is typically used for validations that require a call to your server. The test function is passed the input (as usual) and a method to pass your test result as a boolean. Note: asynchronous validators only run after all other validators on an input have passed (this is to save on network calls and general complexity). Here is an example:
+
+	ValidateSimple.Validators['password-dictionary'] = {
+	   async: true,
+	   test: function(input, handeResult){
+	     new Request({
+	       url: '/check_password',
+	       data: { password: input.get('value') },
+	       onSuccess: function(resp){
+	         handeResult(resp !== 'false', true);
+	       }
+	     }).send();
+	   }
+	 };
+
 
 ValidateSimple Method: constructor
 ----------------------------------
