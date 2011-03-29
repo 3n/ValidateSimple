@@ -199,7 +199,7 @@ var ValidateSimple = new Class({
         (function(){
           if (input.retrieve('validate-simple-is-valid'))
             validator.test(input, handleValidatorResult); 
-        }).afterNoCallsIn(10);
+        }).afterNoCallsIn(validator.wait || 10);
       } else {
         var testResult = validator.test(input);      
         handleValidatorResult(testResult);

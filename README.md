@@ -90,6 +90,7 @@ If a validator object definition includes async: true, that test will be treated
 
 	ValidateSimple.Validators['password-dictionary'] = {
 	   async: true,
+	   wait: 100,
 	   test: function(input, handeResult){
 	     new Request({
 	       url: '/check_password',
@@ -100,6 +101,8 @@ If a validator object definition includes async: true, that test will be treated
 	     }).send();
 	   }
 	 };
+	 
+You may also specify wait:N in your validator definition to wait Nms after the last successful (synchronous) validation attempt to call your asynchronous validator.
 
 
 ValidateSimple Method: constructor
