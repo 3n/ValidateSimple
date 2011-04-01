@@ -286,6 +286,7 @@ var ValidateSimple = new Class({
   
   checkForChangedInputs: function(){
     this.inputs.each(function(input){
+      if (input.retrieve('focused')) return;
       var previous = input.retrieve('vs-previous-value'),
           current = this.getInputValue(input);
 
