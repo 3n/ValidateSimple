@@ -388,7 +388,7 @@ Element.implement({
 	addFocusedProperty: function(){
 		this.store('focused', false);
 		this.addEvent('focus', (function(){ this.store('focused', true);  }).bind(this));
-		this.addEvent('blur',  (function(){ this.store.delay(500, this, ['focused', false]); });
+		this.addEvent('blur',  (function(){ this.store.delay(500, this, ['focused', false]); }));
 	}
 });
 
