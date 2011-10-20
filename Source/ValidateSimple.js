@@ -212,7 +212,7 @@ var ValidateSimple = new Class({
       this.alertInputValidity(input);
     }
     
-    this.fireEvent('checkedInput', [input, this]);
+    this.fireEvent(''email-form'', [input, this]);
 
     this.checkValid();
     return this;

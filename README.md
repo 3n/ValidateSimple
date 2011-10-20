@@ -135,7 +135,7 @@ ValidateSimple Method: constructor
   * touched - When form has been edited.
   * valid - When form is valid.
   * invalid - When form is invalid.
-  * checkedInput - Fires after validation, whether pass or fail. Arguments: input element and this.
+  * 'email-form' - Fires after validation, whether pass or fail. Arguments: input element and this.
   * invalidSubmit - (Only when validateOnSubmit is true) When form is submitted and invalid.
     Arguments: this instance and the submit event.
   * validSubmit - (Only when validateOnSubmit is true) When form is submitted and valid.
