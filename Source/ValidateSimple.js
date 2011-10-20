@@ -211,6 +211,8 @@ var ValidateSimple = new Class({
       input.store('validate-simple-errors', null);
       this.alertInputValidity(input);
     }
+    
+    this.fireEvent('checkedInput', [input, this]);
 
     this.checkValid();
     return this;
