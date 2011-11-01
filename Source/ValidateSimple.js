@@ -32,6 +32,7 @@ var ValidateSimple = new Class({
     initialValidation: true,
     alertPrefilled: true,
     alertUnedited: true,
+    validateFieldsets: false,
     inputSelector: 'input',
     invalidClass: 'invalid',
     validClass: 'valid',
@@ -215,6 +216,7 @@ var ValidateSimple = new Class({
     this.fireEvent('inputChecked', [input, this]);
 
     this.checkValid();
+    if (this.options.validateFieldsets) this.checkFieldset(input.getParent('fieldset'));
     return this;
   },
   validateAllInputs: function(){
@@ -310,6 +312,20 @@ var ValidateSimple = new Class({
 
     this.changeState(allInputsValidOrOptional ? 'valid' : 'invalid');
     return this;
+  },
+  checkFieldset: function(fieldset){
+    if (fieldset){
+      var valid = fieldset.getElements(this.options.inputSelector).every(function(input){
+        return input.retrieve('validate-simple-is-valid') || input.hasClass(this.options.optionalClass);
+      }, this);
+      if (valid){
+        fieldset.addClass('valid').removeClass('invalid');
+        this.fireEvent('fieldSetValid', [fieldset, this]);
+      } else {
+        fieldset.addClass('invalid').removeClass('valid');
+        this.fireEvent('fieldSetInvalid', [fieldset, this]);
+      }
+    }
   },
 
   changeState: function(state){

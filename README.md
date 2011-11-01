@@ -121,6 +121,7 @@ ValidateSimple Method: constructor
   * initialValidation - (boolean: defaults to true) validate all inputs on instantiation.
   * alertUnedited - (boolean: defaults to true) validate/alert inputs that have not been edited. 
   * alertPrefilled - (boolean: defaults to true) validate/alert inputs that have a value on page load.
+  * validateFieldsets - (boolean: defaults to false) adds valid/invalid classes to entire fieldsets, based on the inputs in them. Also fires invalidFieldset and validFieldset events and passes the fieldset.
   * noValidateKeys - (array) array of key codes (event.key) that will disable validation during keypress.
   * checkPeriodical - (number: defaults to 1000) how often to check for changed inputs. This comes
     in handy when the user uses and automated form filler like 1Password, which does not fire any
@@ -133,6 +134,8 @@ ValidateSimple Method: constructor
   * inputInvalid - When an input becomes invalid. Arguments: input element, errors array and this.
   * inputTouched - When an input is first edited. Arguments: input element and this.
   * touched - When form has been edited.
+  * fieldsetValid - When a fieldset is valid and validateFieldsets option is true.
+  * fieldsetInvalid - When a fieldset is invalid and validateFieldsets option is true.
   * valid - When form is valid.
   * invalid - When form is invalid.
   * inputChecked - Fires after validation, whether pass or fail. Arguments: input element and this.
