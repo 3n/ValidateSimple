@@ -349,7 +349,8 @@ ValidateSimple.Validators = {
   },
   'text': {
     test: function(input){
-      return ((input.get('value') != null) && (input.get('value').length > 0));
+      var value = input.get('value');
+      return ((value != null) && (value.length > 0) && value.test(/\S/));
     }
   },
   'checked': {
