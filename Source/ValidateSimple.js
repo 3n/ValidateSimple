@@ -96,7 +96,7 @@ var ValidateSimple = new Class({
 
         var callbacks = [this.validateInput.pass(input, this), this.alertInputValidity.pass(input, this)];
         input.addEvent(validateEvent, callbacks[0]);
-        input.addEvent('change', callbacks[0]);
+        if (validateEvent !== 'change') input.addEvent('change', callbacks[0]);
         input.addEvent(this.options.alertEvent, callbacks[1]);
 
         var prevValue = this.getInputValue(input);
