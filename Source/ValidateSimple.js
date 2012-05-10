@@ -95,8 +95,10 @@ var ValidateSimple = new Class({
         }.bind(this));
 
         var callbacks = [this.validateInput.pass(input, this), this.alertInputValidity.pass(input, this)];
-        input.addEvent(validateEvent, callbacks[0]);
-        if (validateEvent !== 'change') input.addEvent('change', callbacks[0]);
+        if (!(Browser.ie8 && input.get('type').test(/checkbox/))) {
+          input.addEvent(validateEvent, callbacks[0]);
+          if (validateEvent !== 'change') input.addEvent('change', callbacks[0]);
+        }
         input.addEvent(this.options.alertEvent, callbacks[1]);
 
         var prevValue = this.getInputValue(input);
