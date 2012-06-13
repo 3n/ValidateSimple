@@ -407,10 +407,12 @@ Event.Keys['shift'] = 16;
 Event.Keys['control'] = 17;
 
 Element.implement({
-	addFocusedProperty: function(){
+	addFocusedProperty: function(d){
+	  var delay = 500;
+	  if (d !== undefined) delay = d;
 		this.store('focused', false);
 		this.addEvent('focus', (function(){ this.store('focused', true);  }).bind(this));
-		this.addEvent('blur',  (function(){ this.store.delay(500, this, ['focused', false]); }));
+		this.addEvent('blur',  (function(){ this.store.delay(delay, this, ['focused', false]); }));
 	}
 });
 
