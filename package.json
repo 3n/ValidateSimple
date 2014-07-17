@@ -1,0 +1,25 @@
+{
+  "name": "ValidateSimple",
+  "version": "1.0.0",
+  "description": "Simple form validation with good UX for MooTools",
+  "main": "./Source/ValidateSimple.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/OscarGodson/ValidateSimple.git"
+  },
+  "keywords": [
+    "validator",
+    "mootools",
+    "forms",
+    "frontend"
+  ],
+  "author": "3n",
+  "license": "none",
+  "bugs": {
+    "url": "https://github.com/OscarGodson/ValidateSimple/issues"
+  },
+  "homepage": "https://github.com/OscarGodson/ValidateSimple"
+}

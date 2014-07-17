@@ -422,3 +422,5 @@ Function.implement({
     this._afterNoCallsInDelayId = this.delay(time, bind, args);
   }
 });
+
+window.ValidateSimple = ValidateSimple;
