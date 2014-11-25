@@ -94,7 +94,14 @@ var ValidateSimple = new Class({
           if (e.key !== 'tab') this.inputTouched(input);
         }.bind(this));
 
-        var callbacks = [this.validateInput.pass(input, this), this.alertInputValidity.pass(input, this)];
+        var callbacks = [
+          function() {
+            this.validateInput(input);
+          }.bind(this), 
+          function() {
+            this.alertInputValidity(input);
+          }.bind(this)
+        ];
         if (!(Browser.ie8 && input.get('type').test(/checkbox/))) {
           input.addEvent(validateEvent, callbacks[0]);
           if (validateEvent !== 'change') input.addEvent('change', callbacks[0]);
